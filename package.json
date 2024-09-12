@@ -9,7 +9,7 @@
   "scripts": {
     "build": "npx tsc",
     "start": "node ./dist/server.js",
-    "migreate:deploy": "npx prisma migrate deploy",
+    "migrate:deploy": "npx prisma migrate deploy",
     "dev": "dotenv -e ./.env -- tsnd --respawn src/server.ts",
     "prod": "dotenv -e ./.env.prod -- tsnd --respawn src/server.ts",
     "migrate:dev": "dotenv -e ./.env -- npx prisma migrate dev",

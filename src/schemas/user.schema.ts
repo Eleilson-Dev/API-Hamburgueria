@@ -20,3 +20,12 @@ export const userReturnSchema = userSchema.omit({
   password: true,
   orders: true,
 });
+
+export const userLoginSchema = userSchema.pick({ email: true, password: true });
+
+export const userLoginResult = userSchema.omit({
+  password: true,
+  orders: true,
+});
+
+export type TUserLoginResult = z.infer<typeof userLoginResult>;

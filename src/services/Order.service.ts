@@ -2,7 +2,6 @@ import { injectable } from 'tsyringe';
 import { prisma } from '../database/prisma';
 import { TOrderCreate } from '../schemas/order.schema';
 import { userReturnSchema } from '../schemas/user.schema';
-import { AppError } from '../errors/AppError';
 
 @injectable()
 export class OrderService {

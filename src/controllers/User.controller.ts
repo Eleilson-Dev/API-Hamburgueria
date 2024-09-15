@@ -16,4 +16,12 @@ export class UserController {
 
     return res.status(200).json(reponse);
   };
+
+  public loginUser = async (req: Request, res: Response) => {
+    const response = await this.userService.loginUser(
+      res.locals.userLoginResult
+    );
+
+    return res.status(200).json(response);
+  };
 }

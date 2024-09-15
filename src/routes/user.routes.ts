@@ -3,7 +3,8 @@ import { container } from 'tsyringe';
 import { UserService } from '../services/User.service';
 import { UserController } from '../controllers/User.controller';
 import { ValidateBody } from '../middlewares/ValidateBody.middleware';
-import { userCreateSchema } from '../schemas/user.schema';
+import { userCreateSchema, userLoginSchema } from '../schemas/user.schema';
+import { VerifyLoginUser } from '../middlewares/VerifyLoginUser.middleware';
 
 export const userRouter = Router();
 
@@ -15,3 +16,10 @@ userRouter.post('/', ValidateBody.execute(userCreateSchema), (req, res) =>
 );
 
 userRouter.get('/', (req, res) => userController.findAllUsers(req, res));
+
+userRouter.post(
+  '/login',
+  ValidateBody.execute(userLoginSchema),
+  VerifyLoginUser.execute,
+  (req, res) => userController.loginUser(req, res)
+);

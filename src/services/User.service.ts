@@ -1,5 +1,9 @@
 import { injectable } from 'tsyringe';
-import { TUserCreate, userReturnSchema } from '../schemas/user.schema';
+import {
+  TUserCreate,
+  TUserLoginResult,
+  userReturnSchema,
+} from '../schemas/user.schema';
 import { prisma } from '../database/prisma';
 import bcrypt from 'bcryptjs';
 
@@ -14,10 +18,14 @@ export class UserService {
   public createUser = async (userBody: TUserCreate) => {
     const hash = await bcrypt.hashSync(userBody.password, 10);
 
-    const reponse = await prisma.user.create({
+    const response = await prisma.user.create({
       data: { ...userBody, password: hash },
     });
 
-    return userReturnSchema.parse(reponse);
+    return userReturnSchema.parse(response);
+  };
+
+  public loginUser = async (userLoginResult: TUserLoginResult) => {
+    return userLoginResult;
   };
 }

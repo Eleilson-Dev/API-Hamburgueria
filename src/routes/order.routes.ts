@@ -5,6 +5,7 @@ import { OrderController } from '../controllers/Order.controller';
 import { ValidateBody } from '../middlewares/ValidateBody.middleware';
 import { orderCreateSchema } from '../schemas/order.schema';
 import { CheckPendingOrder } from '../middlewares/CheckPendingOrder.middleware';
+import { VerifyToken } from '../middlewares/VerifyToken.middleware';
 
 export const orderRouter = Router();
 
@@ -14,6 +15,7 @@ const orderController = container.resolve(OrderController);
 orderRouter.post(
   '/create/:id',
   ValidateBody.execute(orderCreateSchema),
+  VerifyToken.execute,
   CheckPendingOrder.execute,
   (req, res) => orderController.createOrder(req, res)
 );

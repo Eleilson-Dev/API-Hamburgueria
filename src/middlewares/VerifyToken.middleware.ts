@@ -5,21 +5,29 @@ import jwt from 'jsonwebtoken';
 export class VerifyToken {
   static execute(req: Request, res: Response, next: NextFunction) {
     const authorization = req.headers.authorization;
-
     const token = authorization?.replace('Bearer', '').trim();
 
     if (!token) {
       throw new AppError(401, 'Token is required');
     }
 
-    jwt.verify(token, process.env.JWT_SECRET as string);
+    try {
+      const encodedToken = jwt.verify(token, process.env.JWT_SECRET as string);
 
-    res.locals.decode = jwt.decode(token);
+      res.locals.encodedToken = encodedToken;
+      next();
+    } catch (error: any) {
+      const errorMap: Record<string, { status: number; message: string }> = {
+        TokenExpiredError: { status: 401, message: 'Token expired' },
+        JsonWebTokenError: { status: 400, message: 'Token is not valid' },
+      };
 
-    if (Number(req.params.id) !== Number(res.locals.decode.id)) {
-      throw new AppError(401, 'User is not owner');
+      const { status, message } = errorMap[error.name] || {
+        status: 500,
+        message: 'Internal Server Error',
+      };
+
+      throw new AppError(status, message);
     }
-
-    next();
   }
 }

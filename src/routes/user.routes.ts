@@ -5,6 +5,7 @@ import { UserController } from '../controllers/User.controller';
 import { ValidateBody } from '../middlewares/ValidateBody.middleware';
 import { userCreateSchema, userLoginSchema } from '../schemas/user.schema';
 import { VerifyLoginUser } from '../middlewares/VerifyLoginUser.middleware';
+import { VerifyToken } from '../middlewares/VerifyToken.middleware';
 
 export const userRouter = Router();
 
@@ -15,7 +16,13 @@ userRouter.post('/', ValidateBody.execute(userCreateSchema), (req, res) =>
   userController.createUser(req, res)
 );
 
-userRouter.get('/', (req, res) => userController.findAllUsers(req, res));
+userRouter.get('/', VerifyToken.execute, (req, res) =>
+  userController.findAllUsers(req, res)
+);
+
+userRouter.get('/current', VerifyToken.execute, (req, res) =>
+  userController.findById(req, res)
+);
 
 userRouter.post(
   '/login',

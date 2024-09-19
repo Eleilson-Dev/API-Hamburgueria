@@ -3,7 +3,6 @@ import { prisma } from '../database/prisma';
 import { AppError } from '../errors/AppError';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { userReturnSchema } from '../schemas/user.schema';
 
 export class VerifyLoginUser {
   static async execute(req: Request, res: Response, next: NextFunction) {
@@ -30,7 +29,7 @@ export class VerifyLoginUser {
     );
 
     res.locals.userLoginResult = {
-      user: userReturnSchema.parse(user),
+      user: user.id,
       accessToken,
     };
 

@@ -11,6 +11,14 @@ export class UserController {
     return res.status(200).json(response);
   };
 
+  public findById = async (req: Request, res: Response) => {
+    const response = await this.userService.findById(
+      res.locals.encodedToken.id
+    );
+
+    return res.status(200).json(response);
+  };
+
   public createUser = async (req: Request, res: Response) => {
     const reponse = await this.userService.createUser(req.body);
 

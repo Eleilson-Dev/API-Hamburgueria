@@ -4,18 +4,19 @@ import { AppError } from '../errors/AppError';
 
 export class CheckPendingOrder {
   static async execute(req: Request, res: Response, next: NextFunction) {
-    const pendingOrders = await prisma.order.findMany({
+    const pendingOrder = await prisma.order.findMany({
       where: {
-        userId: Number(req.params.id),
+        userId: Number(res.locals.encodedToken.id),
         status: 'pendente',
       },
     });
 
-    if (pendingOrders.length > 0) {
-      throw new AppError(
-        409,
-        'Você já tem um pedido pendente. Finalize-o antes de criar um novo.'
-      );
+    if (pendingOrder.length > 0) {
+      return res.status(202).json({
+        order: pendingOrder,
+        message:
+          'Você possui um pedido pendente. Finalize-o antes de criar um novo.',
+      });
     }
 
     next();

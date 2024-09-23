@@ -3,7 +3,7 @@ import { container } from 'tsyringe';
 import { OrderService } from '../services/Order.service';
 import { OrderController } from '../controllers/Order.controller';
 import { ValidateBody } from '../middlewares/ValidateBody.middleware';
-import { orderCreateSchema } from '../schemas/order.schema';
+import { orderCreateSchema, updateOrderSchema } from '../schemas/order.schema';
 import { CheckPendingOrder } from '../middlewares/CheckPendingOrder.middleware';
 import { VerifyToken } from '../middlewares/VerifyToken.middleware';
 
@@ -13,7 +13,7 @@ container.registerSingleton('OrderService', OrderService);
 const orderController = container.resolve(OrderController);
 
 orderRouter.post(
-  '/create/:id',
+  '/create',
   ValidateBody.execute(orderCreateSchema),
   VerifyToken.execute,
   CheckPendingOrder.execute,
@@ -21,3 +21,10 @@ orderRouter.post(
 );
 
 orderRouter.get('/', (req, res) => orderController.findAllOrders(req, res));
+
+orderRouter.patch(
+  '/update',
+  ValidateBody.execute(updateOrderSchema),
+  VerifyToken.execute,
+  (req, res) => orderController.updateOrderStatus(req, res)
+);

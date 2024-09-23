@@ -1,7 +1,8 @@
 import { injectable } from 'tsyringe';
 import { prisma } from '../database/prisma';
-import { TOrderCreate } from '../schemas/order.schema';
+import { TOrderCreate, TUpdateOrder } from '../schemas/order.schema';
 import { userReturnSchema } from '../schemas/user.schema';
+import { AppError } from '../errors/AppError';
 
 @injectable()
 export class OrderService {
@@ -21,7 +22,6 @@ export class OrderService {
     const newOrder = await prisma.order.create({
       data: {
         status: orderBody.status,
-        selectedPayment: orderBody.selectedPayment,
         userId,
         orderItems: {
           create: orderBody.hamburgers.map((hamburguer) => ({
@@ -29,10 +29,30 @@ export class OrderService {
             quantity: hamburguer.quantity,
           })),
         },
+        priceOrder: orderBody.priceOrder,
       },
       include: { user: true, orderItems: { include: { hamburguer: true } } },
     });
 
     return { ...newOrder, user: userReturnSchema.parse(newOrder.user) };
+  };
+
+  public updateOrderStatus = async (
+    updateOrder: TUpdateOrder,
+    userId: number
+  ) => {
+    const response = await prisma.order.updateMany({
+      where: {
+        id: updateOrder.id,
+        userId: userId,
+      },
+      data: { status: updateOrder.status },
+    });
+
+    if (response.count === 0) {
+      throw new AppError(400, 'User is not the owner or order not found');
+    }
+
+    return { message: 'the order status has been updated' };
   };
 }

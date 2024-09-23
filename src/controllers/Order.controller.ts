@@ -14,8 +14,17 @@ export class OrderController {
 
   public createOrder = async (req: Request, res: Response) => {
     const response = await this.orderService.createOrder(
-      Number(req.params.id),
+      res.locals.encodedToken.id,
       req.body
+    );
+
+    return res.status(200).json(response);
+  };
+
+  public updateOrderStatus = async (req: Request, res: Response) => {
+    const response = await this.orderService.updateOrderStatus(
+      req.body,
+      res.locals.encodedToken.id
     );
 
     return res.status(200).json(response);

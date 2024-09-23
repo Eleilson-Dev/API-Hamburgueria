@@ -4,7 +4,6 @@ export const orderSchema = z.object({
   id: z.number().positive(),
   userId: z.number().positive(),
   status: z.string().min(1),
-  selectedPayment: z.string(),
   createdAt: z.date(),
   updatedAt: z.date(),
 });
@@ -23,6 +22,10 @@ export const orderCreateSchema = orderSchema
         quantity: z.number().positive().int(),
       })
     ),
+    priceOrder: z.number().positive(),
   });
 
 export type TOrderCreate = z.infer<typeof orderCreateSchema>;
+
+export const updateOrderSchema = orderSchema.pick({ id: true, status: true });
+export type TUpdateOrder = z.infer<typeof updateOrderSchema>;

@@ -19,10 +19,25 @@ export class UserController {
     return res.status(200).json(response);
   };
 
-  public createUser = async (req: Request, res: Response) => {
-    const reponse = await this.userService.createUser(req.body);
+  public validateUser = async (req: Request, res: Response) => {
+    const reponse = await this.userService.validateUser(res.locals.userResult);
 
     return res.status(200).json(reponse);
+  };
+
+  public createUser = async (req: Request, res: Response) => {
+    const reponse = await this.userService.createUser(
+      req.body.userId,
+      req.body.code
+    );
+
+    return res.status(200).json(reponse);
+  };
+
+  public resendVerificationCode = async (req: Request, res: Response) => {
+    const response = await this.userService.resendVerificationCode();
+
+    return res.status(200).json(response);
   };
 
   public loginUser = async (req: Request, res: Response) => {

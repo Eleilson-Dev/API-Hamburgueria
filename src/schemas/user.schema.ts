@@ -14,7 +14,16 @@ export const userCreateSchema = userSchema.omit({
   orders: true,
 });
 
-export type TUserCreate = z.infer<typeof userCreateSchema>;
+export const userCreateBodySchema = userCreateSchema.extend({
+  code: z.string().min(6),
+});
+
+export type TUserCreate = z.infer<typeof userCreateBodySchema>;
+
+export const userCodeSchema = z.object({
+  userId: z.string().min(1),
+  code: z.string().min(6),
+});
 
 export const userReturnSchema = userSchema.omit({
   password: true,

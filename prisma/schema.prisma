@@ -17,49 +17,141 @@ model User {
   id       Int     @id @default(autoincrement())
   name     String
   email    String  @unique
-  password String
+  password String?
+  image    String?
+  role     String
   orders   Order[]
-}
-
-model VerificationCode {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  password  String
-  code      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  expiresAt DateTime
 }
 
 model Order {
   id         Int         @id @default(autoincrement())
   userId     Int
   user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  status     String // Status do pedido: 'pendente', 'concluído', 'cancelado', etc.
+  status     String
   orderItems OrderItem[]
   priceOrder Float
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @default(now()) @updatedAt
 }
 
+model Category {
+  id         Int          @id @default(autoincrement())
+  name       String       @unique
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @default(now()) @updatedAt
+  Hamburguer Hamburguer[]
+  Savory     Savory[]
+  Pizza      Pizza[]
+  Cake       Cake[]
+  Soda       Soda[]
+  Juice      Juice[]
+}
+
 model Hamburguer {
-  id          Int         @id @default(autoincrement())
-  name        String
-  description String?
-  price       Float
-  ingredients String[]
-  size        String
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @default(now()) @updatedAt
-  OrderItem   OrderItem[]
+  id           Int         @id @default(autoincrement())
+  name         String
+  description  String?
+  price        Float
+  ingredients  String[]
+  imageUrl     String
+  size         String
+  categoryName String
+  category     Category    @relation(fields: [categoryName], references: [name], onDelete: Cascade)
+  createdAt    DateTime    @default(now())
+  visibility   Boolean     @default(true)
+  updatedAt    DateTime    @default(now()) @updatedAt
+  OrderItem    OrderItem[]
+}
+
+model Savory {
+  id           Int         @id @default(autoincrement())
+  name         String
+  description  String?
+  price        Float
+  ingredients  String[]
+  imageUrl     String
+  categoryName String
+  category     Category    @relation(fields: [categoryName], references: [name], onDelete: Cascade)
+  createdAt    DateTime    @default(now())
+  visibility   Boolean     @default(true)
+  updatedAt    DateTime    @default(now()) @updatedAt
+  OrderItem    OrderItem[]
+}
+
+model Pizza {
+  id           Int         @id @default(autoincrement())
+  name         String
+  description  String?
+  price        Float
+  ingredients  String[]
+  imageUrl     String
+  size         String
+  categoryName String
+  category     Category    @relation(fields: [categoryName], references: [name], onDelete: Cascade)
+  createdAt    DateTime    @default(now())
+  visibility   Boolean     @default(true)
+  updatedAt    DateTime    @default(now()) @updatedAt
+  OrderItem    OrderItem[]
+}
+
+model Cake {
+  id           Int         @id @default(autoincrement())
+  name         String
+  description  String?
+  price        Float
+  ingredients  String[]
+  imageUrl     String
+  visibility   Boolean     @default(true)
+  categoryName String
+  category     Category    @relation(fields: [categoryName], references: [name], onDelete: Cascade)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @default(now()) @updatedAt
+  OrderItem    OrderItem[]
+}
+
+model Soda {
+  id           Int         @id @default(autoincrement())
+  name         String
+  price        Float
+  imageUrl     String
+  size         String
+  categoryName String
+  category     Category    @relation(fields: [categoryName], references: [name], onDelete: Cascade)
+  createdAt    DateTime    @default(now())
+  visibility   Boolean     @default(true)
+  updatedAt    DateTime    @default(now()) @updatedAt
+  OrderItem    OrderItem[]
+}
+
+model Juice {
+  id           Int         @id @default(autoincrement())
+  name         String
+  price        Float
+  imageUrl     String
+  size         String
+  categoryName String
+  category     Category    @relation(fields: [categoryName], references: [name], onDelete: Cascade)
+  createdAt    DateTime    @default(now())
+  visibility   Boolean     @default(true)
+  updatedAt    DateTime    @default(now()) @updatedAt
+  OrderItem    OrderItem[]
 }
 
 model OrderItem {
-  id           Int        @id @default(autoincrement())
-  order        Order      @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  id           Int         @id @default(autoincrement())
+  order        Order       @relation(fields: [orderId], references: [id], onDelete: Cascade)
   orderId      Int
-  hamburguerId Int
   quantity     Int
-  hamburguer   Hamburguer @relation(fields: [hamburguerId], references: [id], onDelete: Cascade)
+  hamburguer   Hamburguer? @relation(fields: [hamburguerId], references: [id])
+  hamburguerId Int?
+  Soda         Soda?       @relation(fields: [sodaId], references: [id])
+  sodaId       Int?
+  Pizza        Pizza?      @relation(fields: [pizzaId], references: [id])
+  pizzaId      Int?
+  Savory       Savory?     @relation(fields: [savoryId], references: [id])
+  savoryId     Int?
+  Juice        Juice?      @relation(fields: [juiceId], references: [id])
+  juiceId      Int?
+  Cake         Cake?       @relation(fields: [cakeId], references: [id])
+  cakeId       Int?
 }

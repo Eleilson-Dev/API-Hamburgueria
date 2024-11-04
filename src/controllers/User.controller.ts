@@ -47,4 +47,39 @@ export class UserController {
 
     return res.status(200).json(response);
   };
+
+  public makeRecover = async (req: Request, res: Response) => {
+    const response = await this.userService.makeRecovery(
+      res.locals.userRecoverResult
+    );
+
+    return res.status(200).json(response);
+  };
+
+  public confirmRecoveryCode = async (req: Request, res: Response) => {
+    const response = await this.userService.confirmRecoveryCode(
+      req.body.userId,
+      req.body.userEmail,
+      req.body.code
+    );
+
+    return res.status(200).json(response);
+  };
+
+  public resetPassword = async (req: Request, res: Response) => {
+    const response = await this.userService.resetPassword(
+      res.locals.encodedRecoveryToken.userEmail,
+      req.body.password
+    );
+
+    return res.status(200).json({ message: 'senha atualizada' });
+  };
+
+  public loginWithGoogle = async (req: Request, res: Response) => {
+    const response = await this.userService.loginWithGoogle(
+      req.body.access_token
+    );
+
+    return res.status(200).json(response);
+  };
 }

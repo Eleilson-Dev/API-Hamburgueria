@@ -14,6 +14,10 @@ import { SendVerificationEmail } from '../middlewares/SendVerificationEmail.midd
 import { ResendVerificationCode } from '../middlewares/ResendVerificationCode.middleware';
 import { ValidateCacheAndExpiration } from '../middlewares/ValidateCacheAndExpiration.middleware';
 import { IsEmailExits } from '../middlewares/IsEmailexists.middleware';
+import { SendVerificationToRecoverPass } from '../middlewares/SendVerificationToRecoverPass.middleware';
+import { IsEmailExistsToRecover } from '../middlewares/IsEmailExistsToRecover.middleware';
+import { ResendVerificationRecoveryCode } from '../middlewares/ResendVerificationRecoveryCode.middleware';
+import { VerifyTokenRecovery } from '../middlewares/VerifyTokenRecovery.middleware';
 
 export const userRouter = Router();
 
@@ -36,8 +40,15 @@ userRouter.post(
 );
 
 userRouter.post(
-  '/resend',
+  '/resend/code',
   ResendVerificationCode.execute,
+  ValidateCacheAndExpiration.execute,
+  (req, res) => userController.resendVerificationCode(req, res)
+);
+
+userRouter.post(
+  '/resend/recovery/code',
+  ResendVerificationRecoveryCode.execute,
   ValidateCacheAndExpiration.execute,
   (req, res) => userController.resendVerificationCode(req, res)
 );
@@ -55,4 +66,25 @@ userRouter.post(
   ValidateBody.execute(userLoginSchema),
   VerifyLoginUser.execute,
   (req, res) => userController.loginUser(req, res)
+);
+
+userRouter.post(
+  '/send/reset/code',
+  IsEmailExistsToRecover.execute,
+  SendVerificationToRecoverPass.execute,
+  (req, res) => userController.makeRecover(req, res)
+);
+
+userRouter.post(
+  '/validate/recovery',
+  ValidateCacheAndExpiration.execute,
+  (req, res) => userController.confirmRecoveryCode(req, res)
+);
+
+userRouter.post('/reset/password', VerifyTokenRecovery.execute, (req, res) =>
+  userController.resetPassword(req, res)
+);
+
+userRouter.post('/login/google', (req, res) =>
+  userController.loginWithGoogle(req, res)
 );

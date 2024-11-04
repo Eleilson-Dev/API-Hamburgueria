@@ -1,0 +1,16 @@
+INSERT INTO "Pizza" ("name", "description", "price", "ingredients", "size", "categoryId") VALUES 
+('Pizza Margherita', 'Clássica pizza com molho de tomate, queijo mozzarella e manjericão.', 35.99, ARRAY['massa', 'molho de tomate', 'queijo mozzarella', 'manjericão'], 'Média', 4),
+('Pizza Pepperoni', 'Pizza com bastante pepperoni e queijo derretido.', 39.99, ARRAY['massa', 'molho de tomate', 'queijo mozzarella', 'pepperoni'], 'Grande', 4),
+('Pizza Quatro Queijos', 'Mistura deliciosa de queijos mozzarella, gorgonzola, parmesão e catupiry.', 42.99, ARRAY['massa', 'molho de tomate', 'queijo mozzarella', 'gorgonzola', 'queijo parmesão', 'catupiry'], 'Grande', 4),
+('Pizza Calabresa', 'Pizza com linguiça calabresa, cebola e azeitonas.', 38.49, ARRAY['massa', 'molho de tomate', 'queijo mozzarella', 'linguiça calabresa', 'cebola', 'azeitonas'], 'Média', 4),
+('Pizza Portuguesa', 'Pizza com presunto, ovos, cebola e azeitonas.', 41.99, ARRAY['massa', 'molho de tomate', 'queijo mozzarella', 'presunto', 'ovos', 'cebola', 'azeitonas'], 'Grande', 4),
+('Pizza Frango com Catupiry', 'Pizza com frango desfiado e catupiry cremoso.', 37.99, ARRAY['massa', 'molho de tomate', 'queijo mozzarella', 'frango desfiado', 'catupiry'], 'Média', 4),
+('Pizza Vegetariana', 'Pizza saudável com legumes grelhados e queijo.', 36.49, ARRAY['massa', 'molho de tomate', 'queijo mozzarella', 'abobrinha', 'berinjela', 'pimentão'], 'Média', 4),
+('Pizza BBQ', 'Pizza com molho barbecue, frango e cebola caramelizada.', 40.49, ARRAY['massa', 'molho barbecue', 'queijo mozzarella', 'frango desfiado', 'cebola caramelizada'], 'Grande', 4),
+('Pizza Havaiana', 'Pizza com presunto e abacaxi.', 36.99, ARRAY['massa', 'molho de tomate', 'queijo mozzarella', 'presunto', 'abacaxi'], 'Média', 4),
+('Pizza Mexicana', 'Pizza apimentada com carne moída, pimentão e jalapeños.', 39.49, ARRAY['massa', 'molho de tomate', 'queijo mozzarella', 'carne moída', 'pimentão', 'jalapeños'], 'Grande', 4),
+('Pizza de Alho', 'Pizza com bastante alho e queijo.', 34.99, ARRAY['massa', 'molho de tomate', 'queijo mozzarella', 'alho'], 'Média', 4),
+('Pizza de Atum', 'Pizza com atum, cebola e azeitonas.', 38.99, ARRAY['massa', 'molho de tomate', 'queijo mozzarella', 'atum', 'cebola', 'azeitonas'], 'Grande', 4),
+('Pizza de Quatro Estações', 'Pizza com ingredientes variados de cada estação.', 43.99, ARRAY['massa', 'molho de tomate', 'queijo mozzarella', 'presunto', 'cogumelos', 'alcachofra', 'azeitonas'], 'Grande', 4),
+('Pizza de Brócolis com Catupiry', 'Pizza saudável com brócolis e catupiry.', 37.49, ARRAY['massa', 'molho de tomate', 'queijo mozzarella', 'brócolis', 'catupiry'], 'Média', 4),
+('Pizza de Camarão', 'Pizza com camarões grelhados e molho de tomate.', 45.99, ARRAY['massa', 'molho de tomate', 'queijo mozzarella', 'camarão'], 'Grande', 4);

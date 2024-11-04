@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { AppError } from '../errors/AppError';
-// import { JsonWebTokenError } from 'jsonwebtoken';
+import { JsonWebTokenError } from 'jsonwebtoken';
 import { ZodError } from 'zod';
 
 export class HandleErrors {
@@ -14,9 +14,9 @@ export class HandleErrors {
       return res.status(error.statusCode).json({ message: error.message });
     }
 
-    // if (error instanceof JsonWebTokenError) {
-    //   return res.status(401).json({ message: error.message });
-    // }
+    if (error instanceof JsonWebTokenError) {
+      return res.status(401).json({ message: error.message });
+    }
 
     if (error instanceof ZodError) {
       return res.status(401).json({ message: error.message });

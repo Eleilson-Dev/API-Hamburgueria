@@ -1,28 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 import Mailjet from 'node-mailjet';
 import { generateVerificationCode } from '../utils/generateVerificationCode';
-import { templateToEmail } from '../utils/templateToEmail';
-import { AppError } from '../errors/AppError';
+import { templateToEmailForRecover } from '../utils/templateToEmailForRecover';
 
-export class SendVerificationEmail {
+export class SendVerificationToRecoverPass {
   static async execute(req: Request, res: Response, next: NextFunction) {
-    const { name, email, password } = req.body;
-
-    let role = 'regular';
-
-    if (password.includes('+')) {
-      const [cleanName, key] = password.split('+');
-
-      if (key !== process.env.ADMIN_PASS_KEY) {
-        return next(
-          new AppError(400, 'Palavra-chave de administrador inválida.')
-        );
-      }
-
-      role = 'admin';
-
-      req.body.password = cleanName.trim();
-    }
+    const { email } = req.body;
 
     const code = generateVerificationCode();
 
@@ -41,13 +24,12 @@ export class SendVerificationEmail {
           To: [
             {
               Email: email,
-              Name: name,
             },
           ],
-          Subject: 'Código de Verificação',
+          Subject: 'Código de Recuperação',
           TextPart:
             'Dear passenger 1, welcome to Mailjet! May the delivery force be with you!',
-          HTMLPart: templateToEmail(code),
+          HTMLPart: templateToEmailForRecover(code),
         },
       ],
     });
@@ -55,11 +37,8 @@ export class SendVerificationEmail {
     try {
       await request;
 
-      res.locals.userResult = {
-        name,
+      res.locals.userRecoverResult = {
         email,
-        password: req.body.password,
-        role,
         code: code.toString(),
       };
 

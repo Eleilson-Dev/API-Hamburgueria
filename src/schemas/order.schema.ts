@@ -16,10 +16,18 @@ export const orderCreateSchema = orderSchema
     updatedAt: true,
   })
   .extend({
-    hamburgers: z.array(
+    items: z.array(
       z.object({
         id: z.number().positive().int(),
         quantity: z.number().positive().int(),
+        type: z.enum([
+          'hamburguers',
+          'salgados',
+          'pizzas',
+          'refrigerantes',
+          'sucos',
+          'bolos',
+        ]),
       })
     ),
     priceOrder: z.number().positive(),

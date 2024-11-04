@@ -6,7 +6,7 @@ export class ValidateCacheAndExpiration {
   static async execute(req: Request, res: Response, next: NextFunction) {
     const { userId } = req.body;
 
-    const responseCache = await getFromCache(`user:${userId}`);
+    const responseCache = await getFromCache(`cacheKey:${userId}`);
 
     if (!responseCache) {
       throw new AppError(410, 'TIME_EXPIRED');

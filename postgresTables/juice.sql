@@ -1,0 +1,16 @@
+INSERT INTO "Juice" ("name", "price", "size", "createdAt", "visibility", "updatedAt", "categoryId") VALUES
+('Suco de Laranja Natural', 4.00, '300ml', NOW(), TRUE, NOW(), 5),
+('Suco de Abacaxi com Hortelã', 4.50, '350ml', NOW(), TRUE, NOW(), 5),
+('Suco de Limão Siciliano', 3.80, '250ml', NOW(), TRUE, NOW(), 5),
+('Suco de Melancia Refrescante', 4.20, '400ml', NOW(), TRUE, NOW(), 5),
+('Suco de Uva Integral', 5.00, '500ml', NOW(), TRUE, NOW(), 5),
+('Suco de Maracujá Tropical', 4.30, '300ml', NOW(), TRUE, NOW(), 5),
+('Suco de Manga Doce', 4.80, '350ml', NOW(), TRUE, NOW(), 5),
+('Suco de Morango Natural', 5.20, '250ml', NOW(), TRUE, NOW(), 5),
+('Suco Detox Verde', 4.60, '300ml', NOW(), TRUE, NOW(), 5),
+('Suco de Acerola Energético', 4.10, '250ml', NOW(), TRUE, NOW(), 5),
+('Suco de Goiaba Cremoso', 4.70, '400ml', NOW(), TRUE, NOW(), 5),
+('Suco de Frutas Vermelhas', 5.30, '350ml', NOW(), TRUE, NOW(), 5),
+('Suco de Coco Gelado', 4.00, '300ml', NOW(), TRUE, NOW(), 5),
+('Suco de Pitaya Exótico', 5.40, '250ml', NOW(), TRUE, NOW(), 5),
+('Suco de Melão Doce', 4.50, '400ml', NOW(), TRUE, NOW(), 5);

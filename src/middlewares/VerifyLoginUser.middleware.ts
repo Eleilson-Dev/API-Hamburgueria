@@ -14,10 +14,15 @@ export class VerifyLoginUser {
       throw new AppError(404, 'Email or password does not match');
     }
 
-    const compare = await bcrypt.compare(req.body.password, user.password);
+    if (req.body.password) {
+      const compare = await bcrypt.compare(
+        req.body.password,
+        user.password as string
+      );
 
-    if (!compare) {
-      throw new AppError(401, 'Email or password does not match');
+      if (!compare) {
+        throw new AppError(401, 'Email or password does not match');
+      }
     }
 
     const accessToken = jwt.sign(

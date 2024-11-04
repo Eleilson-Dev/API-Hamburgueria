@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const hamburguerSchema = z.object({
+export const pizzaSchema = z.object({
   id: z.number().positive(),
   name: z.string().min(1),
   description: z.string().min(1).optional(),
@@ -12,13 +12,13 @@ export const hamburguerSchema = z.object({
   updatedAt: z.date(),
 });
 
-export const hamburguerCreateSchema = hamburguerSchema.omit({
+export const pizzaCreateSchema = pizzaSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
 });
 
-export const hamburguerUpdateSchema = hamburguerCreateSchema.partial({
+export const pizzaUpdateSchema = pizzaCreateSchema.partial({
   name: true,
   description: true,
   price: true,
@@ -27,10 +27,10 @@ export const hamburguerUpdateSchema = hamburguerCreateSchema.partial({
   categoryName: true,
 });
 
-export type THamburguerCreate = z.infer<typeof hamburguerCreateSchema>;
-export type THamburguerUpdate = z.infer<typeof hamburguerUpdateSchema>;
+export type TPizzaCreate = z.infer<typeof pizzaCreateSchema>;
+export type TPizzaUpdate = z.infer<typeof pizzaUpdateSchema>;
 
-export const hamburguerReturnSchema = hamburguerSchema.omit({
+export const pizzaReturnSchema = pizzaSchema.omit({
   createdAt: true,
   updatedAt: true,
 });

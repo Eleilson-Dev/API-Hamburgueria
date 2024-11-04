@@ -1,28 +1,23 @@
 import { Request, Response, NextFunction } from 'express';
-import Mailjet from 'node-mailjet';
 import { generateVerificationCode } from '../utils/generateVerificationCode';
-import { templateToEmail } from '../utils/templateToEmail';
+import Mailjet from 'node-mailjet';
+import { getFromCache, saveToCache } from '../config/redis';
 import { AppError } from '../errors/AppError';
+import { addMinutes } from 'date-fns';
+import { templateToEmailForRecover } from '../utils/templateToEmailForRecover';
 
-export class SendVerificationEmail {
+export class ResendVerificationRecoveryCode {
   static async execute(req: Request, res: Response, next: NextFunction) {
-    const { name, email, password } = req.body;
+    const { userId } = req.body;
 
-    let role = 'regular';
+    const responseCache = await getFromCache(`cacheKey:${userId}`);
 
-    if (password.includes('+')) {
-      const [cleanName, key] = password.split('+');
-
-      if (key !== process.env.ADMIN_PASS_KEY) {
-        return next(
-          new AppError(400, 'Palavra-chave de administrador inválida.')
-        );
-      }
-
-      role = 'admin';
-
-      req.body.password = cleanName.trim();
+    if (!responseCache) {
+      throw new AppError(404, 'No user data found in cache.');
     }
+
+    const result = JSON.parse(responseCache as string);
+    const { email } = result;
 
     const code = generateVerificationCode();
 
@@ -41,13 +36,12 @@ export class SendVerificationEmail {
           To: [
             {
               Email: email,
-              Name: name,
             },
           ],
           Subject: 'Código de Verificação',
           TextPart:
             'Dear passenger 1, welcome to Mailjet! May the delivery force be with you!',
-          HTMLPart: templateToEmail(code),
+          HTMLPart: templateToEmailForRecover(code),
         },
       ],
     });
@@ -55,13 +49,10 @@ export class SendVerificationEmail {
     try {
       await request;
 
-      res.locals.userResult = {
-        name,
-        email,
-        password: req.body.password,
-        role,
-        code: code.toString(),
-      };
+      result.code = code;
+      result.expiresAt = addMinutes(new Date(), 1);
+
+      await saveToCache(`cacheKey:${userId}`, JSON.stringify(result));
 
       next();
     } catch (error) {

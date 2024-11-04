@@ -5,6 +5,7 @@ export const userSchema = z.object({
   id: z.number().positive(),
   name: z.string().min(1),
   email: z.string().email(),
+  image: z.string().nullable().optional(),
   password: z.string().min(6),
   orders: z.array(orderSchema).optional(),
 });
@@ -14,7 +15,13 @@ export const userCreateSchema = userSchema.omit({
   orders: true,
 });
 
-export const userCreateBodySchema = userCreateSchema.extend({
+export const userCreateDataSchema = userSchema
+  .omit({ id: true, orders: true })
+  .extend({
+    role: z.string(),
+  });
+
+export const userCreateBodySchema = userCreateDataSchema.extend({
   code: z.string().min(6),
 });
 
@@ -25,9 +32,9 @@ export const userCodeSchema = z.object({
   code: z.string().min(6),
 });
 
-export const userReturnSchema = userSchema.omit({
+export const userReturnSchema = userCreateBodySchema.omit({
   password: true,
-  orders: true,
+  code: true,
 });
 
 export const userLoginSchema = userSchema.pick({ email: true, password: true });

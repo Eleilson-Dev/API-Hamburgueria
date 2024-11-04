@@ -1,0 +1,17 @@
+INSERT INTO "Soda" ("name", "price", "size", "createdAt", "visibility", "updatedAt", "categoryId") VALUES
+('Limonada Refrescante', 2.50, '300ml', NOW(), TRUE, NOW(), 2),
+('Refrigerante de Laranja Solar', 3.00, '350ml', NOW(), TRUE, NOW(), 2),
+('Cola Energética Tropical', 3.50, '500ml', NOW(), TRUE, NOW(), 2),
+('Ginger Ale do Vale', 3.20, '400ml', NOW(), TRUE, NOW(), 2),
+('Água com Gás Elegante', 2.00, '500ml', NOW(), TRUE, NOW(), 2),
+('Refrigerante de Uva Estelar', 3.80, '350ml', NOW(), TRUE, NOW(), 2),
+('Citrus Explosão', 3.60, '500ml', NOW(), TRUE, NOW(), 2),
+('Refrigerante de Maçã Doce', 3.40, '300ml', NOW(), TRUE, NOW(), 2),
+('Tônica Refrescante da Floresta', 2.80, '200ml', NOW(), TRUE, NOW(), 2),
+('Laranja Lima do Campo', 2.90, '250ml', NOW(), TRUE, NOW(), 2),
+('Refrigerante de Limão Cristalino', 3.10, '400ml', NOW(), TRUE, NOW(), 2),
+('Fanta Manga Tropical', 3.40, '350ml', NOW(), TRUE, NOW(), 2),
+('Guaraná da Serra', 2.70, '300ml', NOW(), TRUE, NOW(), 2),
+('Refrigerante de Frutas Vermelhas', 3.90, '500ml', NOW(), TRUE, NOW(), 2),
+('Água Tônica do Mar', 2.60, '250ml', NOW(), TRUE, NOW(), 2),
+('Refrigerante de Coco Tropical', 3.20, '400ml', NOW(), TRUE, NOW(), 2);

@@ -10,7 +10,7 @@ export class ResendVerificationCode {
   static async execute(req: Request, res: Response, next: NextFunction) {
     const { userId } = req.body;
 
-    const responseCache = await getFromCache(`user:${userId}`);
+    const responseCache = await getFromCache(`cacheKey:${userId}`);
 
     if (!responseCache) {
       throw new AppError(404, 'No user data found in cache.');
@@ -31,7 +31,7 @@ export class ResendVerificationCode {
         {
           From: {
             Email: 'elleylson.santtos.7@gmail.com',
-            Name: 'Hamburgueria BV',
+            Name: 'Burguer Red',
           },
           To: [
             {
@@ -53,7 +53,7 @@ export class ResendVerificationCode {
       result.code = code;
       result.expiresAt = addMinutes(new Date(), 1);
 
-      await saveToCache(`user:${userId}`, JSON.stringify(result));
+      await saveToCache(`cacheKey:${userId}`, JSON.stringify(result));
 
       next();
     } catch (error) {

@@ -24,14 +24,37 @@ export class OrderService {
         status: orderBody.status,
         userId,
         orderItems: {
-          create: orderBody.hamburgers.map((hamburguer) => ({
-            hamburguerId: hamburguer.id,
-            quantity: hamburguer.quantity,
-          })),
+          create: orderBody.items.map((item) => {
+            switch (item.type) {
+              case 'hamburguers':
+                return { hamburguerId: item.id, quantity: item.quantity };
+              case 'pizzas':
+                return { pizzaId: item.id, quantity: item.quantity };
+              case 'salgados':
+                return { savoryId: item.id, quantity: item.quantity };
+              case 'refrigerantes':
+                return { sodaId: item.id, quantity: item.quantity };
+              case 'sucos':
+                return { juiceId: item.id, quantity: item.quantity };
+              case 'bolos':
+                return { cakeId: item.id, quantity: item.quantity };
+            }
+          }),
         },
         priceOrder: orderBody.priceOrder,
       },
-      include: { user: true, orderItems: { include: { hamburguer: true } } },
+      include: {
+        user: true,
+        orderItems: {
+          include: {
+            hamburguer: true,
+            Soda: true,
+            Pizza: true,
+            Juice: true,
+            Savory: true,
+          },
+        },
+      },
     });
 
     return { ...newOrder, user: userReturnSchema.parse(newOrder.user) };
